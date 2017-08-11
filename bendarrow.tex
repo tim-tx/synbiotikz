@@ -171,7 +171,7 @@
 			\advance\pgf@x\pgfutil@tempdima%
 			\pgf@y\pgf@ya%
 		}%
-		\pgfsavepgf@process\afterarrowtail{%
+		\pgfsavepgf@process\beforearrowbend{%
 			\pgf@x-\pgf@xa%
 			\pgf@y\pgf@ya%
 		}%
@@ -224,8 +224,8 @@
 			\advance\pgf@x\pgf@xb%
 			\advance\pgf@y\pgf@yb%
 		}%
-		\pgfsavepgf@process\afterarrowtailanchor{%
-			\pgfpointadd{\centerpoint}{\afterarrowtail}%
+		\pgfsavepgf@process\beforearrowbendanchor{%
+			\pgfpointadd{\centerpoint}{\beforearrowbend}%
 			\advance\pgf@x-\xoutersep\relax%
 			\advance\pgf@y\youtersep\relax%
 		}%
@@ -234,36 +234,36 @@
 		\let\center@angle@beforearrowtip\pgfmathresult%
 		\pgfmathanglebetweenpoints{\centerpoint}{\beforearrowheadanchor}%
 		\let\center@angle@beforearrowhead\pgfmathresult%
-		\pgfmathanglebetweenpoints{\centerpoint}{\afterarrowtailanchor}%
-		\let\center@angle@afterarrowtail\pgfmathresult%
+		\pgfmathanglebetweenpoints{\centerpoint}{\beforearrowbendanchor}%
+		\let\center@angle@beforearrowbend\pgfmathresult%
 		\addtosavedmacro\center@angle@beforearrowtip%
 		\addtosavedmacro\center@angle@beforearrowhead%
-		\addtosavedmacro\center@angle@afterarrowtail%
+		\addtosavedmacro\center@angle@beforearrowbend%
 		%
 		\pgfmathanglebetweenpoints{\midpoint}{\beforearrowtipanchor}%
 		\let\mid@angle@beforearrowtip\pgfmathresult%
 		\pgfmathanglebetweenpoints{\midpoint}{\beforearrowheadanchor}%
 		\let\mid@angle@beforearrowhead\pgfmathresult%
-		\pgfmathanglebetweenpoints{\midpoint}{\afterarrowtailanchor}%
-		\let\mid@angle@afterarrowtail\pgfmathresult%
+		\pgfmathanglebetweenpoints{\midpoint}{\beforearrowbendanchor}%
+		\let\mid@angle@beforearrowbend\pgfmathresult%
 		\addtosavedmacro\mid@angle@beforearrowtip%
 		\addtosavedmacro\mid@angle@beforearrowhead%
-		\addtosavedmacro\mid@angle@afterarrowtail%
+		\addtosavedmacro\mid@angle@beforearrowbend%
 		%
 		\pgfmathanglebetweenpoints{\basepoint}{\beforearrowtipanchor}%
 		\let\base@angle@beforearrowtip\pgfmathresult%
 		\pgfmathanglebetweenpoints{\basepoint}{\beforearrowheadanchor}%
 		\let\base@angle@beforearrowhead\pgfmathresult%
-		\pgfmathanglebetweenpoints{\basepoint}{\afterarrowtailanchor}%
-		\let\base@angle@afterarrowtail\pgfmathresult%
+		\pgfmathanglebetweenpoints{\basepoint}{\beforearrowbendanchor}%
+		\let\base@angle@beforearrowbend\pgfmathresult%
 		\addtosavedmacro\base@angle@beforearrowtip%
 		\addtosavedmacro\base@angle@beforearrowhead%
-		\addtosavedmacro\base@angle@afterarrowtail%
+		\addtosavedmacro\base@angle@beforearrowbend%
 		%
 		\addtosavedmacro\arrowtipanchor%
 		\addtosavedmacro\beforearrowtipanchor%
 		\addtosavedmacro\beforearrowheadanchor%
-		\addtosavedmacro\afterarrowtailanchor%
+		\addtosavedmacro\beforearrowbendanchor%
 	}
 	\savedanchor\centerpoint{%
 		\pgf@x.5\wd\pgfnodeparttextbox%
@@ -367,24 +367,24 @@
 		\getsinglearrowpoints%
 		\pgfmathrotatepointaround{%
 			\pgfpointadd{%
-				\pgfpointdiff{\centerpoint}{\afterarrowtailanchor}%
+				\pgfpointdiff{\centerpoint}{\beforearrowbendanchor}%
 				\pgf@y-\pgf@y%
 			}{\centerpoint}}%
 		{\centerpoint}{\rotate}%
 	}
 	\anchor{after tail}{%
 		\getsinglearrowpoints%
-		\pgfmathrotatepointaround{\afterarrowtailanchor}{\centerpoint}{\rotate}%
+		\pgfmathrotatepointaround{\beforearrowbendanchor}{\centerpoint}{\rotate}%
 	}
 	\anchor{tail}{%
 		\getsinglearrowpoints%
 		\pgfpointlineattime{0.5}{%
-			\pgfmathrotatepointaround{\afterarrowtailanchor}{\centerpoint}{\rotate}%
+			\pgfmathrotatepointaround{\beforearrowbendanchor}{\centerpoint}{\rotate}%
 		}%
 		{%
 			\pgfmathrotatepointaround{%
 			\pgfpointadd{%
-				\pgfpointdiff{\centerpoint}{\afterarrowtailanchor}%
+				\pgfpointdiff{\centerpoint}{\beforearrowbendanchor}%
 				\pgf@y-\pgf@y%
 			}{\centerpoint}}%
 			{\centerpoint}{\rotate}%
@@ -397,8 +397,8 @@
 			\pgfpathmoveto{\arrowtip}%
 			\pgfpathlineto{\beforearrowtip}%
 			\pgfpathlineto{\beforearrowhead}%
-			\pgfpathlineto{\afterarrowtail}%
-			\pgfpathlineto{\afterarrowtail\pgf@y-\pgf@y}%
+			\pgfpathlineto{\beforearrowbend}%
+			\pgfpathlineto{\beforearrowbend\pgf@y-\pgf@y}%
 			\pgfpathlineto{\beforearrowhead\pgf@y-\pgf@y}%
 			\pgfpathlineto{\beforearrowtip\pgf@y-\pgf@y}%			
 		}%
@@ -426,16 +426,16 @@
 		\ifx\referencepoint\midpoint%
 			\pgf@xa\mid@angle@beforearrowtip pt\relax%
 			\pgf@xb\mid@angle@beforearrowhead pt\relax%
-			\pgf@xc\mid@angle@afterarrowtail pt\relax%
+			\pgf@xc\mid@angle@beforearrowbend pt\relax%
 		\else%
 			\ifx\referencepoint\basepoint%
 				\pgf@xa\base@angle@beforearrowtip pt\relax%
 				\pgf@xb\base@angle@beforearrowhead pt\relax%
-				\pgf@xc\base@angle@afterarrowtail pt\relax%
+				\pgf@xc\base@angle@beforearrowbend pt\relax%
 			\else%
 				\pgf@xa\center@angle@beforearrowtip pt\relax%
 				\pgf@xb\center@angle@beforearrowhead pt\relax%
-				\pgf@xc\center@angle@afterarrowtail pt\relax%
+				\pgf@xc\center@angle@beforearrowbend pt\relax%
 			\fi%
 		\fi%
 		\ifdim\pgf@x<\pgf@xa%
@@ -453,15 +453,15 @@
 			\else%
 				\ifdim\pgf@x<\pgf@xc%
 					\let\firstpoint\beforearrowheadanchor%
-					\let\secondpoint\afterarrowtailanchor%
+					\let\secondpoint\beforearrowbendanchor%
 				\else%
 					\pgf@xc-\pgf@xc%
 					\advance\pgf@xc360pt\relax%
 					\ifdim\pgf@x<\pgf@xc%
-						\let\firstpoint\afterarrowtailanchor%
+						\let\firstpoint\beforearrowbendanchor%
 						\pgfsavepgf@process\secondpoint{%
 							\pgfpointadd{%
-								\pgfpointdiff{\centerpoint}{\afterarrowtailanchor}%
+								\pgfpointdiff{\centerpoint}{\beforearrowbendanchor}%
 								\pgf@y-\pgf@y%
 							}{\centerpoint}%
 						}%
@@ -474,7 +474,7 @@
 							\ifdim\pgf@x<\pgf@xb%
 								\pgfsavepgf@process\firstpoint{%
 									\pgfpointadd{%
-											\pgfpointdiff{\centerpoint}{\afterarrowtailanchor}%
+											\pgfpointdiff{\centerpoint}{\beforearrowbendanchor}%
 											\pgf@y-\pgf@y%
 									}{\centerpoint}%
 								}%
