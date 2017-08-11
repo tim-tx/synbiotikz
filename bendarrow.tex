@@ -175,6 +175,11 @@
 			\pgf@x-\pgf@xa%
 			\pgf@y\pgf@ya%
 		}%
+		\pgfsavepgf@process\afterarrowtail{%
+			\pgf@x-\pgf@xa%
+			\pgf@y\pgf@ya%
+			\advance\pgf@y-2\pgf@xa%
+		}%
 		%
 		% Calculate the anchor point at the arrow tip...
 		%
@@ -229,6 +234,11 @@
 			\advance\pgf@x-\xoutersep\relax%
 			\advance\pgf@y\youtersep\relax%
 		}%
+		\pgfsavepgf@process\afterarrowtailanchor{%
+			\pgfpointadd{\centerpoint}{\afterarrowtail}%
+			\advance\pgf@x-\xoutersep\relax%
+			\advance\pgf@y-\youtersep\relax%
+		}%
 		%
 		\pgfmathanglebetweenpoints{\centerpoint}{\beforearrowtipanchor}%
 		\let\center@angle@beforearrowtip\pgfmathresult%
@@ -264,6 +274,7 @@
 		\addtosavedmacro\beforearrowtipanchor%
 		\addtosavedmacro\beforearrowheadanchor%
 		\addtosavedmacro\beforearrowbendanchor%
+		\addtosavedmacro\afterarrowtailanchor%
 	}
 	\savedanchor\centerpoint{%
 		\pgf@x.5\wd\pgfnodeparttextbox%
@@ -372,7 +383,7 @@
 			}{\centerpoint}}%
 		{\centerpoint}{\rotate}%
 	}
-	\anchor{after tail}{%
+	\anchor{before bend}{%
 		\getsinglearrowpoints%
 		\pgfmathrotatepointaround{\beforearrowbendanchor}{\centerpoint}{\rotate}%
 	}
