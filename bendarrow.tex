@@ -1,13 +1,17 @@
 \documentclass{article}
 \usepackage{tikz}
-\usetikzlibrary{shapes.multipart}
+\usetikzlibrary{shapes.multipart,shapes.arrows,decorations.markings}
+\usepackage[margin=1in]{geometry}
 \begin{document}
+
+\tikzset{shape example/.style={color=black!30,draw,fill=yellow!30,line width=0.5cm,inner xsep=2.5cm,inner ysep=0.5cm}}
+
 \makeatletter
 
 \pgfkeys{/pgf/.cd,
-	single arrow tip angle/.initial=90, 
-	single arrow head extend/.initial=.25cm,
-	single arrow head indent/.initial=0cm}
+	single bent arrow tip angle/.initial=90, 
+	single bent arrow head extend/.initial=.25cm,
+	single bent arrow head indent/.initial=0cm}
 
 % Shape single arrow
 %
@@ -84,7 +88,7 @@
 		%
 		% Get some useful trig stuff.
 		%
-		\pgfmathdivide{\pgfkeysvalueof{/pgf/single arrow tip angle}}{2}%
+		\pgfmathdivide{\pgfkeysvalueof{/pgf/single bent arrow tip angle}}{2}%
 		\let\halftipangle\pgfmathresult%
 		\pgfmathcosec@{\halftipangle}%
 		\let\cosechalftipangle\pgfmathresult%
@@ -103,7 +107,7 @@
 		%
 		\pgf@xb\pgf@ya%
 		\pgf@xb\cothalftipangle\pgf@xb%
-		\pgfmathsetlength\pgf@xc{\pgfkeysvalueof{/pgf/single arrow head extend}}%
+		\pgfmathsetlength\pgf@xc{\pgfkeysvalueof{/pgf/single bent arrow head extend}}%
 		\pgf@yc\pgf@xc%
 		\advance\pgf@xc\pgf@ya%
 		\pgfmathsetlength\pgfutil@tempdimb{\pgfkeysvalueof{/pgf/minimum width}}%
@@ -128,7 +132,7 @@
 		\fi%
 		\advance\pgf@xa-\pgf@xb%
 		\pgf@xa.5\pgf@xa%		
-		\pgfmathsetlength\pgfutil@tempdima{\pgfkeysvalueof{/pgf/single arrow head indent}}%
+		\pgfmathsetlength\pgfutil@tempdima{\pgfkeysvalueof{/pgf/single bent arrow head indent}}%
 		%
 		% Now:
 		%
@@ -175,8 +179,19 @@
 			\pgf@x-\pgf@xa%
 			\pgf@y\pgf@ya%
 		}%
+		\pgfsavepgf@process\afterarrowbend{%
+			\pgf@x-\pgf@xa%
+			\advance\pgf@x2\pgf@ya
+			\pgf@y-\pgf@ya%
+		}%
 		\pgfsavepgf@process\afterarrowtail{%
 			\pgf@x-\pgf@xa%
+			\pgf@y\pgf@ya%
+			\advance\pgf@y-2\pgf@xa%
+		}%
+		\pgfsavepgf@process\beforearrowtail{%
+			\pgf@x-\pgf@xa%
+			\advance\pgf@x2\pgf@ya
 			\pgf@y\pgf@ya%
 			\advance\pgf@y-2\pgf@xa%
 		}%
@@ -234,9 +249,19 @@
 			\advance\pgf@x-\xoutersep\relax%
 			\advance\pgf@y\youtersep\relax%
 		}%
+		\pgfsavepgf@process\afterarrowbendanchor{%
+			\pgfpointadd{\centerpoint}{\afterarrowbend}%
+			\advance\pgf@x\xoutersep\relax%
+			\advance\pgf@y-\youtersep\relax%
+		}%
 		\pgfsavepgf@process\afterarrowtailanchor{%
 			\pgfpointadd{\centerpoint}{\afterarrowtail}%
 			\advance\pgf@x-\xoutersep\relax%
+			\advance\pgf@y-\youtersep\relax%
+		}%
+		\pgfsavepgf@process\beforearrowtailanchor{%
+			\pgfpointadd{\centerpoint}{\beforearrowtail}%
+			\advance\pgf@x\xoutersep\relax%
 			\advance\pgf@y-\youtersep\relax%
 		}%
 		%
@@ -274,7 +299,9 @@
 		\addtosavedmacro\beforearrowtipanchor%
 		\addtosavedmacro\beforearrowheadanchor%
 		\addtosavedmacro\beforearrowbendanchor%
+		\addtosavedmacro\afterarrowbendanchor%
 		\addtosavedmacro\afterarrowtailanchor%
+		\addtosavedmacro\beforearrowtailanchor%
 	}
 	\savedanchor\centerpoint{%
 		\pgf@x.5\wd\pgfnodeparttextbox%
@@ -294,55 +321,55 @@
 	\anchor{mid east}{%
 		\getsinglearrowpoints%
 		\let\pgf@singlearrow@referencepoint\midpoint%
-		\csname pgf@anchor@single arrow@border\endcsname{\pgfqpoint{\externalradius}{0pt}}%
-	}	
+		\csname pgf@anchor@single bent arrow@border\endcsname{\pgfqpoint{\externalradius}{0pt}}%
+	}
 	\anchor{mid west}{%
 		\getsinglearrowpoints%
 		\let\pgf@singlearrow@referencepoint\midpoint%
-		\csname pgf@anchor@single arrow@border\endcsname{\pgfqpoint{-\externalradius}{0pt}}%
+		\csname pgf@anchor@single bent arrow@border\endcsname{\pgfqpoint{-\externalradius}{0pt}}%
 	}	
 	\anchor{base}{\basepoint}%
 	\anchor{base east}{%
 		\getsinglearrowpoints%
 		\let\pgf@singlearrow@referencepoint\basepoint%
-		\csname pgf@anchor@single arrow@border\endcsname{\pgfqpoint{\externalradius}{0pt}}%
+		\csname pgf@anchor@single bent arrow@border\endcsname{\pgfqpoint{\externalradius}{0pt}}%
 	}	
 	\anchor{base west}{%
 		\getsinglearrowpoints%
 		\let\pgf@singlearrow@referencepoint\basepoint%
-		\csname pgf@anchor@single arrow@border\endcsname{\pgfqpoint{-\externalradius}{0pt}}%
-	}	
+		\csname pgf@anchor@single bent arrow@border\endcsname{\pgfqpoint{-\externalradius}{0pt}}%
+	}
 	\anchor{north}{%
 		\getsinglearrowpoints%
-		\csname pgf@anchor@single arrow@border\endcsname{\pgfqpoint{0pt}{\externalradius}}%
+		\csname pgf@anchor@single bent arrow@border\endcsname{\pgfqpoint{0pt}{\externalradius}}%
 	}
 	\anchor{south}{%
 		\getsinglearrowpoints%
-		\csname pgf@anchor@single arrow@border\endcsname{\pgfqpoint{0pt}{-\externalradius}}%
+		\csname pgf@anchor@single bent arrow@border\endcsname{\pgfqpoint{0pt}{-\externalradius}}%
 	}
 	\anchor{east}{%
 		\getsinglearrowpoints%
-		\csname pgf@anchor@single arrow@border\endcsname{\pgfqpoint{\externalradius}{0pt}}%
+		\csname pgf@anchor@single bent arrow@border\endcsname{\pgfqpoint{\externalradius}{0pt}}%
 	}
 	\anchor{west}{%
 		\getsinglearrowpoints%
-		\csname pgf@anchor@single arrow@border\endcsname{\pgfqpoint{-\externalradius}{0pt}}%
+		\csname pgf@anchor@single bent arrow@border\endcsname{\pgfqpoint{-\externalradius}{0pt}}%
 	}
 	\anchor{north east}{%
 		\getsinglearrowpoints%
-		\csname pgf@anchor@single arrow@border\endcsname{\pgfqpoint{\externalradius}{\externalradius}}%
+		\csname pgf@anchor@single bent arrow@border\endcsname{\pgfqpoint{\externalradius}{\externalradius}}%
 	}
 	\anchor{south east}{%
 		\getsinglearrowpoints%
-		\csname pgf@anchor@single arrow@border\endcsname{\pgfqpoint{\externalradius}{-\externalradius}}%
+		\csname pgf@anchor@single bent arrow@border\endcsname{\pgfqpoint{\externalradius}{-\externalradius}}%
 	}
 	\anchor{south west}{%
 		\getsinglearrowpoints%
-		\csname pgf@anchor@single arrow@border\endcsname{\pgfqpoint{-\externalradius}{-\externalradius}}%
+		\csname pgf@anchor@single bent arrow@border\endcsname{\pgfqpoint{-\externalradius}{-\externalradius}}%
 	}
 	\anchor{north west}{%
 		\getsinglearrowpoints%
-		\csname pgf@anchor@single arrow@border\endcsname{\pgfqpoint{-\externalradius}{\externalradius}}%
+		\csname pgf@anchor@single bent arrow@border\endcsname{\pgfqpoint{-\externalradius}{\externalradius}}%
 	}
 	\anchor{before head}{%
 		\getsinglearrowpoints%
@@ -376,16 +403,19 @@
 	}
 	\anchor{before tail}{%
 		\getsinglearrowpoints%
-		\pgfmathrotatepointaround{%
-			\pgfpointadd{%
-				\pgfpointdiff{\centerpoint}{\beforearrowbendanchor}%
-				\pgf@y-\pgf@y%
-			}{\centerpoint}}%
-		{\centerpoint}{\rotate}%
+		\pgfmathrotatepointaround{\beforearrowtailanchor}{\centerpoint}{\rotate}%
 	}
 	\anchor{before bend}{%
 		\getsinglearrowpoints%
 		\pgfmathrotatepointaround{\beforearrowbendanchor}{\centerpoint}{\rotate}%
+	}
+	\anchor{after bend}{%
+		\getsinglearrowpoints%
+		\pgfmathrotatepointaround{\afterarrowbendanchor}{\centerpoint}{\rotate}%
+	}
+	\anchor{after tail}{%
+		\getsinglearrowpoints%
+		\pgfmathrotatepointaround{\afterarrowtailanchor}{\centerpoint}{\rotate}%
 	}
 	\anchor{tail}{%
 		\getsinglearrowpoints%
@@ -399,7 +429,7 @@
 				\pgf@y-\pgf@y%
 			}{\centerpoint}}%
 			{\centerpoint}{\rotate}%
-		}%	
+		}%
 	}%
 	\backgroundpath{%
 		{%
@@ -538,15 +568,29 @@
 			\pgfmathrotatepointaround{\secondpoint}{\centerpoint}{\rotate}%
 		}%
 		\pgfpointintersectionoflines{\referencepoint}{\externalpoint}%
-			{\firstpoint}{\secondpoint}%			
+			{\firstpoint}{\secondpoint}%
 	}%
 }
 
 
 \makeatother
-
+\Huge
 \begin{tikzpicture}
-  \node[single bent arrow,draw] {foo};
+  \node[name=s,single bent arrow,draw,shape example,single bent arrow head extend=1.5cm] {Single Bent Arrow\vrule width1pt height2cm};
+  \foreach \anchor/\placement in
+    {text/above,
+    center/above, 20/above,
+    mid west/left,
+    mid/above,
+    mid east/above left,
+    base west/below, base/below,
+    base east/below,
+    tip/above, before tip/above, after tip/below, before head/above,
+    after head/below, after tail/below, before tail/below, tail/right,
+    after bend/below, before bend/above,
+    north/above, south/below, east/below, west/above,
+    north west/above, north east/below, south west/below, south east/above}
+  \draw[shift=(s.\anchor)] plot[mark=x] coordinates{(0,0)} node[\placement] {\scriptsize\texttt{(s.\anchor)}};
 \end{tikzpicture}
 
 \end{document}
