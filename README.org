@@ -1,0 +1,4 @@
+* Description
+  The idea of this project is to be able to easily draw genetic circuit diagrams in TikZ. Something like \circuit{PCT} will draw a promoter, a coding sequence, and a terminator.
+
+  For now, all that is in this repository is a pgf/tikz library that adds a custom bent arrow node shape to use as a promoter.
