@@ -1,13 +1,12 @@
-\documentclass{article}
-\usepackage{tikz}
-\usetikzlibrary{shapes.multipart,shapes.arrows,decorations.markings}
-\usepackage[margin=1in]{geometry}
-\begin{document}
-
-\tikzset{shape example/.style={color=black!30,draw,fill=yellow!30,line width=0.5cm,inner xsep=2.5cm,inner ysep=0.5cm}}
-
-\makeatletter
-
+% Copyright 2007 by Till Tantau and Mark Wibrow
+%
+% This file may be distributed and/or modified
+%
+% 1. under the LaTeX Project Public License and/or
+% 2. under the GNU Public License.
+%
+% See the file doc/generic/pgf/licenses/LICENSE for more details.
+% Modded by tsj, figure out the license...
 \pgfkeys{/pgf/.cd,
 	single bent arrow tip angle/.initial=90, 
 	single bent arrow head extend/.initial=.25cm,
@@ -439,7 +438,9 @@
 			\pgfpathlineto{\beforearrowtip}%
 			\pgfpathlineto{\beforearrowhead}%
 			\pgfpathlineto{\beforearrowbend}%
-			\pgfpathlineto{\beforearrowbend\pgf@y-\pgf@y}%
+			\pgfpathlineto{\afterarrowtail}%
+			\pgfpathlineto{\beforearrowtail}%
+			\pgfpathlineto{\afterarrowbend}%
 			\pgfpathlineto{\beforearrowhead\pgf@y-\pgf@y}%
 			\pgfpathlineto{\beforearrowtip\pgf@y-\pgf@y}%			
 		}%
@@ -573,24 +574,5 @@
 }
 
 
-\makeatother
-\Huge
-\begin{tikzpicture}
-  \node[name=s,single bent arrow,draw,shape example,single bent arrow head extend=1.5cm] {Single Bent Arrow\vrule width1pt height2cm};
-  \foreach \anchor/\placement in
-    {text/above,
-    center/above, 20/above,
-    mid west/left,
-    mid/above,
-    mid east/above left,
-    base west/below, base/below,
-    base east/below,
-    tip/above, before tip/above, after tip/below, before head/above,
-    after head/below, after tail/below, before tail/below, tail/right,
-    after bend/below, before bend/above,
-    north/above, south/below, east/below, west/above,
-    north west/above, north east/below, south west/below, south east/above}
-  \draw[shift=(s.\anchor)] plot[mark=x] coordinates{(0,0)} node[\placement] {\scriptsize\texttt{(s.\anchor)}};
-\end{tikzpicture}
 
-\end{document}
+\endinput
