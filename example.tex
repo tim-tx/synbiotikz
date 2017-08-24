@@ -1,0 +1,73 @@
+\documentclass{article}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,shapes.arrows,arrows.meta,positioning,calc,decorations.markings,intersections,shapes.extraarrows}
+
+\usepackage{xparse}
+
+\makeatletter
+\newcommand\currentcoordinate{\the\tikz@lastxsaved,\the\tikz@lastysaved}
+\makeatother
+
+\begin{document}
+
+\tikzset{every picture/.style={semithick,line cap=butt}}
+\tikzset{ shorten <>/.style={ shorten >=#1, shorten <=#1 } }
+
+\begin{tikzpicture}
+  \coordinate (start) at (0,0);
+
+  \coordinate (bottom) at ($(start) + (0,0.5*\pgflinewidth)$);
+  \draw (bottom) -- ++(5cm,0);
+  % \coordinate (top) at ($(start) + (0,10pt + 0.5\pgflinewidth)$);
+  % \draw[red,thick] (top) -- ++(5cm,0);
+  
+  \node[draw,fill=green,shape=semicircle,minimum size=10pt,anchor=arc end] (rbs) {};
+
+  \node[draw,fill=green,single arrow,right=0.5cm of rbs.south east,anchor=south west,single arrow head extend=0,minimum height=20pt,minimum width=10pt] (cds) {};
+  
+  \coordinate[right=0.75cm of cds.south east] (t1);
+  \draw[-{Bar[width=10pt]},yshift=\pgflinewidth] (t1) -- ++($(0,10pt) + (0,\pgflinewidth)$);
+  
+  \coordinate[right=0.75cm of t1] (p1);
+  \coordinate[above right=10pt and 5pt of p1] (p1top);
+  \draw[-{Triangle[length=4pt,width=3pt]}] (p1) -- ++(0,10pt+0.5*\pgflinewidth) -- ++(10pt,0);
+
+  \node[draw,fill=green,shape=circle,minimum size=10pt,right=1cm of p1,anchor=south] (fs) {};
+  
+  \draw[-{Bar[]},shorten <=1pt,shorten >=2pt] (cds.north) -- ++(0,10pt) -- coordinate[midway] (foo) (\currentcoordinate -| p1top) -- ++(0,-10pt);
+  % \coordinate[above=10pt of foo] (dox);
+  \node[above=10pt of foo] (dox) {dox};
+  \draw[-{Bar[]},shorten >=2pt] (dox.south) -- ++(0,-10pt);
+\end{tikzpicture}
+
+\begin{tikzpicture}
+  \coordinate (start) at (0,0);
+
+  \coordinate (bottom) at ($(start) + (0,0.5*\pgflinewidth)$);
+  \draw (bottom) -- ++(5cm,0);
+  % \coordinate (top) at ($(start) + (0,10pt + 0.5\pgflinewidth)$);
+  % \draw[red,thick] (top) -- ++(5cm,0);
+  
+  \node[draw,fill=green,shape=semicircle,minimum size=10pt,anchor=arc end] (rbs) {};
+
+  \node[draw,fill=green,single arrow,right=0.5cm of rbs.south east,anchor=south west,single arrow head extend=0,minimum height=20pt,minimum width=10pt] (cds) {};
+  
+  \coordinate[right=0.75cm of cds.south east] (t1);
+  \draw[-{Bar[width=10pt]},yshift=\pgflinewidth] (t1) -- ++($(0,10pt) + (0,\pgflinewidth)$);
+
+  \coordinate[right=0.75cm of t1] (p1);
+  \node[draw, single bent arrow, inner sep=0.5pt, fill=green,right=0.75cm of t1,anchor=after tail,minimum height=11pt,single bent arrow head extend=1.5pt] {};
+  \coordinate[above right=10pt and 5pt of p1] (p1top);
+  % \draw[-{Triangle[length=4pt,width=3pt]}] (p1) -- ++(0,10pt+0.5*\pgflinewidth) -- ++(10pt,0);
+
+  \node[draw,fill=green,shape=circle,minimum size=10pt,right=1cm of p1,anchor=south] (fs) {};
+
+  
+  \draw[-{Bar[]},shorten <=1pt,shorten >=2pt] (cds.north) -- ++(0,10pt) -- coordinate[midway] (foo) (\currentcoordinate -| p1top) -- ++(0,-10pt);
+  % \coordinate[above=10pt of foo] (dox);
+  \node[above=10pt of foo] (dox) {dox};
+  \draw[-{Bar[]},shorten >=2pt] (dox.south) -- ++(0,-10pt);
+\end{tikzpicture}
+
+\end{document}
