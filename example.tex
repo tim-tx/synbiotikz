@@ -70,4 +70,18 @@
   \draw[-{Bar[]},shorten >=2pt] (dox.south) -- ++(0,-10pt);
 \end{tikzpicture}
 
+\begin{tikzpicture}[promoter/.style={fill=green, single bent arrow, single bent arrow head extend=1.5pt, inner sep=0.5pt, minimum height=11pt}]
+  \coordinate (start) at (0,0);
+
+  \coordinate (bottom) at ($(start) + (0,0*\pgflinewidth)$);
+  \draw (bottom) -- ++(5cm,0);
+  
+  \node[promoter, anchor=after tail] (p1) {};
+  \node[promoter, single bent arrow head extend=3pt, right=0.5cm of p1.after tail, anchor=after tail] (p2) {};
+  \node[promoter, right=0.5cm of p2.after tail, anchor=after tail, minimum height=14pt] (p3) {};
+  \node[promoter, single bent arrow head indent=0.5pt, right=0.5cm of p3.after tail, anchor=after tail] (p4) {};
+  \node[promoter, single bent arrow tip angle=45, right=0.5cm of p4.after tail, anchor=after tail] (p5) {};
+
+\end{tikzpicture}
+
 \end{document}
